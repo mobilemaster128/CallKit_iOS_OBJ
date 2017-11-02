@@ -31,8 +31,6 @@
 @property (nonatomic, assign) NSTimeInterval callDuration;
 @property (nonatomic, assign) BOOL isOnHold;
 
-@property (nonatomic, weak) CallManager *callManager;
-
 @property (strong, nonatomic) AVAudioPlayer *player;
 
 @end
@@ -42,8 +40,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _callManager = [CallManager sharedInstance];
     
     self.callerLabel.text = self.phoneNumber;
     
@@ -59,12 +55,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (self.phoneNumber) {
-        _callManager.delegate = self;
+        [CallManager sharedInstance].delegate = self;
         if (self.isIncoming) {
             //[self performSelector:@selector(performCall) withObject:nil afterDelay:2.f];
             [self performSelector:@selector(performCall:) withObject:[NSNumber numberWithDouble:3.0]];
         } else {
-            [_callManager startCallWithPhoneNumber:self.phoneNumber];
+            [[CallManager sharedInstance] startCallWithPhoneNumber:self.phoneNumber];
         }
     }
 }
@@ -86,7 +82,7 @@
 - (IBAction)holdButtonTapped:(UIButton*)sender {
     self.isOnHold = !self.isOnHold;
     [self.holdButton setTitle:(self.isOnHold ? @"RESUME" : @"HOLD") forState:UIControlStateNormal];
-    [_callManager holdCall:self.isOnHold];
+    [[CallManager sharedInstance] holdCall:self.isOnHold];
 }
 
 #pragma mark - CallManagerDelegate
@@ -139,7 +135,7 @@
     UIBackgroundTaskIdentifier identifier = [UIApplication.sharedApplication beginBackgroundTaskWithExpirationHandler:nil];
     dispatch_after(delay_time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
         [UIApplication.sharedApplication endBackgroundTask:identifier];
-        [_callManager reportIncomingCallForUUID:weakSelf.uuid phoneNumber:weakSelf.phoneNumber];
+        [[CallManager sharedInstance] reportIncomingCallForUUID:weakSelf.uuid phoneNumber:weakSelf.phoneNumber];
     });
 }
 
@@ -185,7 +181,7 @@
 
 - (void)callKitButton:(id)sender changedState:(ButtonState)state {
     if (sender == _endButton) {
-        [_callManager endCall];
+        [[CallManager sharedInstance] endCall];
     } else if (sender == _keypadButton) {
         [self performSegueWithIdentifier:@"gotoKeyPad" sender:self];
         [_keypadButton setState:OFF];
@@ -198,10 +194,8 @@
         NSLog(@"Shop App");
         _showAppButton.state = OFF;        
     } else if (sender == _muteButton) {
-        [_callManager mute:_muteButton.state == ON ? YES : NO];
+        [[CallManager sharedInstance] mute:_muteButton.state == ON ? YES : NO];
     }
 }
 
 @end
-
-

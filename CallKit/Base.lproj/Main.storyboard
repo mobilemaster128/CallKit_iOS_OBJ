@@ -261,7 +261,7 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hl9-cM-3Iz" customClass="CallKitButton">
-                                <rect key="frame" x="151.5" y="571" width="72" height="72"/>
+                                <rect key="frame" x="151.5" y="535" width="72" height="72"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Hl9-cM-3Iz" secondAttribute="height" multiplier="1:1" id="B52-DD-f0B"/>
@@ -288,7 +288,7 @@
                             <constraint firstItem="cbs-cU-a6A" firstAttribute="top" secondItem="UWf-bm-Asc" secondAttribute="bottom" constant="4" id="KtR-2Q-uIf"/>
                             <constraint firstItem="cbs-cU-a6A" firstAttribute="centerX" secondItem="o3F-Hj-cVT" secondAttribute="centerX" id="RZK-mf-Jad"/>
                             <constraint firstItem="UWf-bm-Asc" firstAttribute="top" secondItem="QWp-eK-0sB" secondAttribute="bottom" constant="8" id="UCn-Hj-uuH"/>
-                            <constraint firstItem="gW0-DR-X3R" firstAttribute="top" secondItem="Hl9-cM-3Iz" secondAttribute="bottom" constant="24" id="USz-pg-2iA"/>
+                            <constraint firstItem="gW0-DR-X3R" firstAttribute="top" secondItem="Hl9-cM-3Iz" secondAttribute="bottom" constant="60" id="USz-pg-2iA"/>
                             <constraint firstItem="iF1-rH-M7Q" firstAttribute="width" secondItem="Hl9-cM-3Iz" secondAttribute="width" id="ViC-La-dTD"/>
                             <constraint firstItem="QWp-eK-0sB" firstAttribute="centerX" secondItem="o3F-Hj-cVT" secondAttribute="centerX" id="aP0-02-2uE"/>
                             <constraint firstItem="DCc-oo-fcP" firstAttribute="width" secondItem="Hl9-cM-3Iz" secondAttribute="width" id="dWd-LH-wry"/>
@@ -550,7 +550,7 @@
     </scenes>
     <resources>
         <image name="endcall.png" width="208" height="77"/>
-        <image name="mask_icon.png" width="1024" height="1024"/>
+        <image name="mask_icon.png" width="762" height="762"/>
         <image name="mute.png" width="512" height="512"/>
         <image name="numpad.png" width="360" height="360"/>
         <image name="speaker.png" width="208" height="162"/>

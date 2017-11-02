@@ -197,7 +197,6 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    NSLog(@"Touch Began: %@", [touches anyObject]);
     if ([touches anyObject].view == imageContainer) {
         if (state == OFF) {
             state = TOUCH;
@@ -207,7 +206,6 @@
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    NSLog(@"Touch Began: %@", [touches anyObject]);
     if ([touches anyObject].view == imageContainer) {
         if (state == TOUCH) {
             state = OFF;
