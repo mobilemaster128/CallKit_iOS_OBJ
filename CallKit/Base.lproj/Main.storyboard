@@ -529,12 +529,13 @@
                     <connections>
                         <outlet property="buttonAsterisk" destination="V7J-g0-tDT" id="lfp-vQ-L4f"/>
                         <outlet property="buttonEight" destination="3f6-BJ-xIM" id="iVJ-AN-7fR"/>
-                        <outlet property="buttonFive" destination="LAp-30-MPT" id="TI8-zb-Ivk"/>
+                        <outlet property="buttonFive" destination="ZDm-7z-9ty" id="zfA-q2-TLw"/>
                         <outlet property="buttonFour" destination="4QI-I7-t3Z" id="zUd-Za-dl8"/>
                         <outlet property="buttonNine" destination="ULN-WO-cLR" id="Pqw-If-8cz"/>
                         <outlet property="buttonOne" destination="LyM-P2-Rvy" id="5pU-of-Q0I"/>
                         <outlet property="buttonSeven" destination="9cQ-jk-9ZE" id="fyz-XP-rRY"/>
                         <outlet property="buttonSharp" destination="CY6-73-dfx" id="1V5-0o-hR1"/>
+                        <outlet property="buttonSix" destination="LAp-30-MPT" id="8LT-xF-nHE"/>
                         <outlet property="buttonThree" destination="XG9-vA-Z8s" id="uvZ-jx-NiR"/>
                         <outlet property="buttonTwo" destination="Rmw-j4-4lZ" id="5f6-CB-ltq"/>
                         <outlet property="buttonZero" destination="faJ-j2-L6T" id="KrM-Qw-jNu"/>

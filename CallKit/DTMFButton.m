@@ -123,8 +123,6 @@
     
     [container setUserInteractionEnabled:YES];
     
-    //[container addGestureRecognizer:singleTap];
-    
     digitLabel.textAlignment = NSTextAlignmentCenter;
     digitLabel.backgroundColor = [UIColor clearColor];
     [digitLabel setFont:[digitLabel.font fontWithSize:digitSize]];
@@ -212,15 +210,16 @@
 
 - (void) startPlayDTMF:(NSString*)digit {
     [self changeState:YES];
+    //dispatch_async(dispatch_get_main_queue(), ^{
     //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        //[generator play];
+        [generator play];
     //});
     [self performSelector:@selector(endPlayDTMF) withObject:nil afterDelay:MAX_TIME];
 }
 
 - (void) endPlayDTMF {
     if (isPlaying) {
-        //[generator stop];
+        [generator stop];
         [self changeState:NO];
         if ([delegate respondsToSelector:@selector(didEndDTMF:digit:)]) {
             [delegate didEndDTMF:self digit:digit];

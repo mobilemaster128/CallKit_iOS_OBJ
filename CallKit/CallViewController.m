@@ -134,6 +134,7 @@
     dispatch_time_t delay_time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)([delay doubleValue] * NSEC_PER_SEC));
     UIBackgroundTaskIdentifier identifier = [UIApplication.sharedApplication beginBackgroundTaskWithExpirationHandler:nil];
     dispatch_after(delay_time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
+    //dispatch_after(delay_time, dispatch_get_main_queue(), ^(void) {
         [UIApplication.sharedApplication endBackgroundTask:identifier];
         [[CallManager sharedInstance] reportIncomingCallForUUID:weakSelf.uuid phoneNumber:weakSelf.phoneNumber];
     });
