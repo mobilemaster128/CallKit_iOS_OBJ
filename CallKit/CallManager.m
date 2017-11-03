@@ -39,7 +39,7 @@
 @property (nonatomic, strong) CXProvider *provider;
 @property (nonatomic, strong) CXCallController *callController;
 
-@property (nonatomic, strong) CallContact *currentCall;
+@property (nonatomic, strong) NSUUID *currentCall;
 
 @end
 
@@ -63,7 +63,7 @@
     update.supportsDTMF = YES;
     [self.provider reportNewIncomingCallWithUUID:uuid update:update completion:^(NSError * _Nullable error) {
         if (!error) {
-            weakSelf.currentCall = [[CallContact alloc] initWithUUID:uuid];
+            weakSelf.currentCall = uuid;
         } else {
             if (self.delegate && [self.delegate respondsToSelector:@selector(callDidFail)]) {
                 [self.delegate callDidFail];
@@ -74,36 +74,38 @@
 
 - (void)startCallWithPhoneNumber:(NSString*)phoneNumber {
     CXHandle *handle = [[CXHandle alloc] initWithType:CXHandleTypePhoneNumber value:phoneNumber];
-    _currentCall = [[CallContact alloc] initWithUUID:[NSUUID new]];
-    CXStartCallAction *startCallAction = [[CXStartCallAction alloc] initWithCallUUID:_currentCall.uuid handle:handle];
+    _currentCall = [NSUUID new];
+    CXStartCallAction *startCallAction = [[CXStartCallAction alloc] initWithCallUUID:_currentCall handle:handle];
     CXTransaction *transaction = [[CXTransaction alloc] init];
     [transaction addAction:startCallAction];
     [self requestTransaction:transaction];
 }
 
 - (void)mute:(BOOL)mute {
-    CXSetMutedCallAction *action = [[CXSetMutedCallAction alloc] initWithCallUUID:_currentCall.uuid muted:mute];
+    CXSetMutedCallAction *action = [[CXSetMutedCallAction alloc] initWithCallUUID:_currentCall muted:mute];
     CXTransaction *transaction = [[CXTransaction alloc] init];
     [transaction addAction:action];
     [self requestTransaction:transaction];
 }
 
 - (void)playDTMF:(NSString*)digits {
-    CXPlayDTMFCallAction *action = [[CXPlayDTMFCallAction alloc] initWithCallUUID:_currentCall.uuid digits:digits type:CXPlayDTMFCallActionTypeSoftPause];
+    //CXPlayDTMFCallAction *action = [[CXPlayDTMFCallAction alloc] initWithCallUUID:_currentCall digits:digits type:CXPlayDTMFCallActionTypeSingleTone];
+    //CXPlayDTMFCallAction *action = [[CXPlayDTMFCallAction alloc] initWithCallUUID:_currentCall digits:digits type:CXPlayDTMFCallActionTypeSoftPause];
+    CXPlayDTMFCallAction *action = [[CXPlayDTMFCallAction alloc] initWithCallUUID:_currentCall digits:digits type:CXPlayDTMFCallActionTypeHardPause];
     CXTransaction *transaction = [[CXTransaction alloc] init];
     [transaction addAction:action];
     [self requestTransaction:transaction];
 }
 
 - (void)endCall {
-    CXEndCallAction *endCallAction = [[CXEndCallAction alloc] initWithCallUUID:_currentCall.uuid];
+    CXEndCallAction *endCallAction = [[CXEndCallAction alloc] initWithCallUUID:_currentCall];
     CXTransaction *transaction = [[CXTransaction alloc] init];
     [transaction addAction:endCallAction];
     [self requestTransaction:transaction];
 }
 
 - (void)holdCall:(BOOL)hold {
-    CXSetHeldCallAction *holdCallAction = [[CXSetHeldCallAction alloc] initWithCallUUID:_currentCall.uuid onHold:hold];
+    CXSetHeldCallAction *holdCallAction = [[CXSetHeldCallAction alloc] initWithCallUUID:_currentCall onHold:hold];
     CXTransaction *transaction = [[CXTransaction alloc] init];
     [transaction addAction:holdCallAction];
     [self requestTransaction:transaction];
@@ -141,7 +143,7 @@ static NSString* const DefaultIconMask = @"mask_icon";
             configuration.iconTemplateImageData = UIImagePNGRepresentation(iconMaskImage);
         }
         
-        configuration.ringtoneSound = DefaultRingtoneSound;
+        //configuration.ringtoneSound = DefaultRingtoneSound;
         
         _provider = [[CXProvider alloc] initWithConfiguration:configuration];
         [_provider setDelegate:self queue:nil];
@@ -223,8 +225,12 @@ static NSString* const DefaultIconMask = @"mask_icon";
     NSLog(@"Play DTMF: %@", action.digits);
     
     // here is your DTMF code
+    dispatch_time_t delay_time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC));
+    //dispatch_after(delay_time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
+    dispatch_after(delay_time, dispatch_get_main_queue(), ^(void) {
+        [action fulfill];
+    });
     
-    [action fulfill];
 }
 
 /// Called when an action was not performed in time and has been inherently failed. Depending on the action, this timeout may also force the call to end. An action that has already timed out should not be fulfilled or failed by the provider delegate

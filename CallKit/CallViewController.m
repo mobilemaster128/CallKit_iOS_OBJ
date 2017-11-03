@@ -57,8 +57,7 @@
     if (self.phoneNumber) {
         [CallManager sharedInstance].delegate = self;
         if (self.isIncoming) {
-            //[self performSelector:@selector(performCall) withObject:nil afterDelay:2.f];
-            [self performSelector:@selector(performCall:) withObject:[NSNumber numberWithDouble:3.0]];
+            [self performSelector:@selector(performCallWithDelay:) withObject:[NSNumber numberWithDouble:2.0]];
         } else {
             [[CallManager sharedInstance] startCallWithPhoneNumber:self.phoneNumber];
         }
@@ -95,7 +94,16 @@
     [self startTimer];
     
     NSString *soundFilePath = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] pathForResource:@"Ringtone" ofType:@"aif"]];
-    [self playSound:soundFilePath Loop:YES];
+    
+    __weak CallViewController* weakself = self;
+    dispatch_time_t delay_time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
+    UIBackgroundTaskIdentifier identifier = [UIApplication.sharedApplication beginBackgroundTaskWithExpirationHandler:nil];
+    dispatch_after(delay_time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
+    //dispatch_after(delay_time, dispatch_get_main_queue(), ^(void) {
+        [weakself playSound:soundFilePath Loop:YES];
+        [UIApplication.sharedApplication endBackgroundTask:identifier];
+    });
+    //[self playSound:soundFilePath Loop:YES];
 }
 
 - (void)callDidEnd {
@@ -128,18 +136,15 @@
 }
 
 #pragma mark - Utilities
-
-- (void)performCall:(NSNumber*)delay {
+- (void)performCallWithDelay:(NSNumber*)delay {
     __weak CallViewController* weakSelf = self;
-    dispatch_time_t delay_time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)([delay doubleValue] * NSEC_PER_SEC));
+    dispatch_time_t delay_time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay.doubleValue * NSEC_PER_SEC));
     UIBackgroundTaskIdentifier identifier = [UIApplication.sharedApplication beginBackgroundTaskWithExpirationHandler:nil];
-    dispatch_after(delay_time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
-    //dispatch_after(delay_time, dispatch_get_main_queue(), ^(void) {
+    dispatch_after(delay_time, dispatch_get_main_queue(), ^(void) {
+        [[CallManager sharedInstance] reportIncomingCallForUUID:_uuid phoneNumber:_phoneNumber];
         [UIApplication.sharedApplication endBackgroundTask:identifier];
-        [[CallManager sharedInstance] reportIncomingCallForUUID:weakSelf.uuid phoneNumber:weakSelf.phoneNumber];
     });
 }
-
 - (IBAction)unwindForKeypad:(UIStoryboardSegue *)unwindSegue {
 }
 

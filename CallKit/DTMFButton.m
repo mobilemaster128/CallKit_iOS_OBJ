@@ -26,8 +26,6 @@
     UILabel* subLabel;
     
     BOOL initialized;
-    
-    TGSineWaveToneGenerator *generator;
 }
 
 @property (nonatomic, assign) BOOL isPlaying;
@@ -38,6 +36,7 @@
 @property (nonatomic, assign) CGFloat subSize;
 @property (nonatomic, copy) UIColor* tintColor;
 @property (nonatomic, copy) UIColor* buttonColor;
+@property (nonatomic, copy) TGSineWaveToneGenerator *generator;
 
 @end
 
@@ -53,6 +52,7 @@
 @synthesize tintColor;
 @synthesize buttonColor;
 @synthesize delegate;
+@synthesize generator;
 
 - (id) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -107,6 +107,8 @@
 }
 
 - (void) initControl {
+    //[self generateDTMF:digit];
+    
     container = [[UIView alloc] init];
     digitLabel = [[UILabel alloc] init];
     subLabel = [[UILabel alloc] init];
@@ -130,8 +132,6 @@
     subLabel.textAlignment = NSTextAlignmentCenter;
     subLabel.backgroundColor = [UIColor clearColor];
     subLabel.font = [digitLabel.font fontWithSize:subSize];
-    
-    [self generateDTMF:digit];
     
     initialized = YES;
 }
@@ -210,16 +210,18 @@
 
 - (void) startPlayDTMF:(NSString*)digit {
     [self changeState:YES];
-    //dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
     //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [generator play];
-    //});
+    });
     [self performSelector:@selector(endPlayDTMF) withObject:nil afterDelay:MAX_TIME];
 }
 
 - (void) endPlayDTMF {
     if (isPlaying) {
-        [generator stop];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [generator stop];
+        });
         [self changeState:NO];
         if ([delegate respondsToSelector:@selector(didEndDTMF:digit:)]) {
             [delegate didEndDTMF:self digit:digit];
