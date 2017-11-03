@@ -54,13 +54,18 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (self.phoneNumber) {
+    if (self.phoneNumber && ![[CallManager sharedInstance] isCalling]) {
         [CallManager sharedInstance].delegate = self;
         if (self.isIncoming) {
             [self performSelector:@selector(performCallWithDelay:) withObject:[NSNumber numberWithDouble:2.0]];
         } else {
             [[CallManager sharedInstance] startCallWithPhoneNumber:self.phoneNumber];
         }
+    }
+    
+    if ([[CallManager sharedInstance] isCalling]) {
+        [CallManager sharedInstance].delegate = self;
+        [self callDidAnswer];
     }
 }
 
@@ -93,16 +98,16 @@
     self.infoLabel.text = @"Active";
     [self startTimer];
     
-    NSString *soundFilePath = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] pathForResource:@"Ringtone" ofType:@"aif"]];
+    //NSString *soundFilePath = [NSString stringWithFormat:@"%@",[[NSBundle mainBundle] pathForResource:@"Ringtone" ofType:@"aif"]];
     
-    __weak CallViewController* weakself = self;
+    /*__weak CallViewController* weakself = self;
     dispatch_time_t delay_time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC));
     UIBackgroundTaskIdentifier identifier = [UIApplication.sharedApplication beginBackgroundTaskWithExpirationHandler:nil];
     dispatch_after(delay_time, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
     //dispatch_after(delay_time, dispatch_get_main_queue(), ^(void) {
         [weakself playSound:soundFilePath Loop:YES];
         [UIApplication.sharedApplication endBackgroundTask:identifier];
-    });
+    });*/
     //[self playSound:soundFilePath Loop:YES];
 }
 
@@ -198,7 +203,8 @@
     } else if (sender == _showAppButton) {
         // here is your app code
         NSLog(@"Shop App");
-        _showAppButton.state = OFF;        
+        _showAppButton.state = OFF;
+        [self dismiss];
     } else if (sender == _muteButton) {
         [[CallManager sharedInstance] mute:_muteButton.state == ON ? YES : NO];
     }

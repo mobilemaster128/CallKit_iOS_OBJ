@@ -33,6 +33,7 @@
 + (CallManager*)sharedInstance;
 - (void)reportIncomingCallForUUID:(NSUUID*)uuid phoneNumber:(NSString*)phoneNumber;
 - (void)startCallWithPhoneNumber:(NSString*)phoneNumber;
+- (BOOL)isCalling;
 - (void)mute:(BOOL)mute;
 - (void)playDTMF:(NSString*)digits;
 - (void)endCall;

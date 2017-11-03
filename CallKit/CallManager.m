@@ -81,6 +81,10 @@
     [self requestTransaction:transaction];
 }
 
+- (BOOL)isCalling {
+    return _currentCall ? YES : NO;
+}
+
 - (void)mute:(BOOL)mute {
     CXSetMutedCallAction *action = [[CXSetMutedCallAction alloc] initWithCallUUID:_currentCall muted:mute];
     CXTransaction *transaction = [[CXTransaction alloc] init];

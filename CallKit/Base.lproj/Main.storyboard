@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13770" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Scf-eK-ALb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Scf-eK-ALb">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13770"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -102,14 +102,17 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJs-2N-CXH">
-                                <rect key="frame" x="136.5" y="188" width="102" height="33"/>
+                                <rect key="frame" x="94" y="188" width="187.5" height="40"/>
                                 <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="h9l-QE-lAR"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <state key="normal" title="Simulate call">
                                     <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Pez-jM-dSY" kind="presentation" identifier="ShowCall" id="Gw0-tN-2ow"/>
+                                    <action selector="clickSimulateBtn:" destination="DD5-Dr-g6I" eventType="touchUpInside" id="yds-Tc-Weh"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -119,12 +122,14 @@
                             <constraint firstItem="vmh-lU-RYd" firstAttribute="top" secondItem="Eoe-oR-N1z" secondAttribute="bottom" constant="64" id="GQS-h2-v2H"/>
                             <constraint firstItem="vmh-lU-RYd" firstAttribute="leading" secondItem="m9R-6a-ZtF" secondAttribute="leadingMargin" constant="10" id="Mb0-8w-0hb"/>
                             <constraint firstItem="fJs-2N-CXH" firstAttribute="centerX" secondItem="m9R-6a-ZtF" secondAttribute="centerX" id="hGj-mT-lyr"/>
+                            <constraint firstItem="fJs-2N-CXH" firstAttribute="width" secondItem="m9R-6a-ZtF" secondAttribute="width" multiplier="0.5" id="prw-D8-F8o"/>
                             <constraint firstItem="fJs-2N-CXH" firstAttribute="top" secondItem="vmh-lU-RYd" secondAttribute="bottom" constant="30" id="tsc-JE-zwA"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="phoneNumberTextField" destination="vmh-lU-RYd" id="cX3-Xz-s2I"/>
                         <outlet property="simulateCallButton" destination="fJs-2N-CXH" id="y6n-Gy-FFM"/>
+                        <segue destination="Pez-jM-dSY" kind="presentation" identifier="gotoCall" id="wzI-g7-P43"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EeP-Qw-oFA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -156,20 +161,24 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="grk-sK-orE">
-                                <rect key="frame" x="172" y="144" width="31" height="33"/>
+                                <rect key="frame" x="94" y="144" width="187.5" height="40"/>
                                 <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Ctu-TN-x9p"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <state key="normal" title="Dial">
                                     <color key="titleColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Pez-jM-dSY" kind="presentation" identifier="ShowDial" id="ro0-5Z-gGl"/>
+                                    <action selector="clickSimulateBtn:" destination="Nyr-GA-7Gf" eventType="touchUpInside" id="a2I-tC-l33"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="zU0-my-LK2" firstAttribute="centerX" secondItem="Dv2-dz-QB5" secondAttribute="centerX" id="7O7-Pv-6V5"/>
+                            <constraint firstItem="grk-sK-orE" firstAttribute="width" secondItem="Dv2-dz-QB5" secondAttribute="width" multiplier="0.5" id="7Of-fR-cQV"/>
                             <constraint firstItem="zU0-my-LK2" firstAttribute="leading" secondItem="Dv2-dz-QB5" secondAttribute="leadingMargin" constant="10" id="96o-ps-pf1"/>
                             <constraint firstItem="zU0-my-LK2" firstAttribute="top" secondItem="mTI-KP-OQK" secondAttribute="bottom" constant="64" id="Otd-2v-dID"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zU0-my-LK2" secondAttribute="trailing" constant="10" id="TRT-YA-4DQ"/>
@@ -181,6 +190,7 @@
                     <connections>
                         <outlet property="dialButton" destination="grk-sK-orE" id="y6e-c0-T4B"/>
                         <outlet property="phoneNumberTextField" destination="zU0-my-LK2" id="rru-QV-DYf"/>
+                        <segue destination="Pez-jM-dSY" kind="presentation" identifier="gotoCall" id="wny-sq-yEN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nfr-fb-RuE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -557,6 +567,6 @@
         <image name="speaker.png" width="208" height="162"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Gw0-tN-2ow"/>
+        <segue reference="wzI-g7-P43"/>
     </inferredMetricsTieBreakers>
 </document>

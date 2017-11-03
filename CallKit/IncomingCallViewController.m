@@ -8,6 +8,7 @@
 
 #import "IncomingCallViewController.h"
 #import "CallViewController.h"
+#include "CallManager.h"
 
 
 static NSString *const kTitle = @"Incoming Call";
@@ -27,6 +28,15 @@ static NSString *const kTitle = @"Incoming Call";
     self.title = kTitle;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if ([[CallManager sharedInstance] isCalling]) {
+        [_simulateCallButton setTitle:@"Show Call Screen" forState:UIControlStateNormal];
+    } else {
+        [_simulateCallButton setTitle:@"Simulate Call" forState:UIControlStateNormal];
+    }
+}
+
 #pragma mark - Actions
 
 - (IBAction)phoneNumberValueChanged:(UITextField*)sender {
@@ -34,12 +44,18 @@ static NSString *const kTitle = @"Incoming Call";
     self.simulateCallButton.enabled = (phoneNumber.length);
 }
 
+- (IBAction)clickSimulateBtn:(id)sender {
+    [self performSegueWithIdentifier:@"gotoCall" sender:self];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ShowCall"]) {
-        CallViewController* callViewController = [segue destinationViewController];
-        callViewController.phoneNumber = self.phoneNumberTextField.text;
-        callViewController.isIncoming = YES;
-        callViewController.uuid = [NSUUID new];
+    if ([[segue identifier] isEqualToString:@"gotoCall"]) {
+        if (![[CallManager sharedInstance] isCalling]) {
+            CallViewController* callViewController = [segue destinationViewController];
+            callViewController.phoneNumber = self.phoneNumberTextField.text;
+            callViewController.isIncoming = YES;
+            callViewController.uuid = [NSUUID new];
+        }
     }
 }
 
