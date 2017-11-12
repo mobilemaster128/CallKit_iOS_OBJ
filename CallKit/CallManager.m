@@ -7,6 +7,7 @@
 //
 
 #import "CallManager.h"
+#import "AudioSession.h"
 #import <CallKit/CallKit.h>
 #import <CallKit/CXError.h>
 #import <UIKit/UIKit.h>
@@ -58,6 +59,7 @@
 
 - (void)reportIncomingCallForUUID:(NSUUID*)uuid phoneNumber:(NSString*)phoneNumber {
     CXCallUpdate *update = [[CXCallUpdate alloc] init];
+    // in order to disable video/facetime icon, please comment this
     //update.remoteHandle = [[CXHandle alloc] initWithType:CXHandleTypePhoneNumber value:phoneNumber];
     update.localizedCallerName = phoneNumber;
     __weak CallManager *weakSelf = self;
@@ -166,6 +168,11 @@ static NSString* const DefaultIconMask = @"mask_icon";
 #pragma mark - CXProviderDelegate
 
 - (void)providerDidReset:(CXProvider *)provider {
+    [AudioSession stopAudio];
+    self.currentCall = nil;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(callDidEnd)]) {
+        [self.delegate callDidEnd];
+    }
 }
 
 /// Called when the provider has been fully created and is ready to send actions and receive updates
@@ -179,6 +186,7 @@ static NSString* const DefaultIconMask = @"mask_icon";
     [self.provider reportOutgoingCallWithUUID:action.callUUID startedConnectingAtDate:nil];
     [self.provider reportOutgoingCallWithUUID:action.callUUID connectedAtDate:nil];
     
+    [AudioSession configureAudio];
     if (self.delegate && [self.delegate respondsToSelector:@selector(callDidAnswer)]) {
         [self.delegate callDidAnswer];
     }
@@ -189,6 +197,7 @@ static NSString* const DefaultIconMask = @"mask_icon";
 - (void)provider:(CXProvider *)provider performAnswerCallAction:(CXAnswerCallAction *)action {
     //todo: configure audio session
     //todo: answer network call
+    [AudioSession configureAudio];
     if (self.delegate && [self.delegate respondsToSelector:@selector(callDidAnswer)]) {
         [self.delegate callDidAnswer];
     }
@@ -198,6 +207,7 @@ static NSString* const DefaultIconMask = @"mask_icon";
 - (void)provider:(CXProvider *)provider performEndCallAction:(CXEndCallAction *)action {
     //todo: stop audio
     //todo: end network call
+    [AudioSession stopAudio];
     self.currentCall = nil;
     if (self.delegate && [self.delegate respondsToSelector:@selector(callDidEnd)]) {
         [self.delegate callDidEnd];
@@ -208,8 +218,10 @@ static NSString* const DefaultIconMask = @"mask_icon";
 - (void)provider:(CXProvider *)provider performSetHeldCallAction:(CXSetHeldCallAction *)action {
     if (action.isOnHold) {
         //todo: stop audio
+        [AudioSession stopAudio];
     } else {
         //todo: start audio
+        [AudioSession startAudio];
     }
     if (self.delegate && [self.delegate respondsToSelector:@selector(callDidHold:)]) {
         [self.delegate callDidHold:action.isOnHold];
@@ -247,6 +259,7 @@ static NSString* const DefaultIconMask = @"mask_icon";
 - (void)provider:(CXProvider *)provider didActivateAudioSession:(AVAudioSession *)audioSession {
     //todo: start audio
     // Start call audio media, now that the audio session has been activated after having its priority boosted.
+    [AudioSession startAudio];
 }
 
 - (void)provider:(CXProvider *)provider didDeactivateAudioSession:(AVAudioSession *)audioSession {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0415690E1FB05CE200FDDB23 /* AudioSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415690D1FB05CE200FDDB23 /* AudioSession.m */; };
 		04CBE1421FA9F9930084D801 /* CallKitButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CBE1411FA9F9930084D801 /* CallKitButton.m */; };
 		04F4F72C1FAB9940002299A2 /* speaker.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F4F7251FAB993F002299A2 /* speaker.png */; };
 		04F4F72D1FAB9940002299A2 /* mask_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 04F4F7261FAB993F002299A2 /* mask_icon.png */; };
@@ -34,6 +35,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0415690C1FB05CE200FDDB23 /* AudioSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioSession.h; sourceTree = "<group>"; };
+		0415690D1FB05CE200FDDB23 /* AudioSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioSession.m; sourceTree = "<group>"; };
 		04CBE1401FA9F9930084D801 /* CallKitButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallKitButton.h; sourceTree = "<group>"; };
 		04CBE1411FA9F9930084D801 /* CallKitButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CallKitButton.m; sourceTree = "<group>"; };
 		04F4F7251FAB993F002299A2 /* speaker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = speaker.png; path = Image/speaker.png; sourceTree = "<group>"; };
@@ -89,6 +92,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		041569071FB05AD100FDDB23 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				0415690C1FB05CE200FDDB23 /* AudioSession.h */,
+				0415690D1FB05CE200FDDB23 /* AudioSession.m */,
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
 		04F4F7241FAB9931002299A2 /* Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +127,7 @@
 		84D331831FA9153500386E4B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				041569071FB05AD100FDDB23 /* Audio */,
 				04F4F7241FAB9931002299A2 /* Image */,
 				04FF51B51FAB31D800563821 /* DTMF */,
 				04CBE1401FA9F9930084D801 /* CallKitButton.h */,
@@ -295,6 +308,7 @@
 				04CBE1421FA9F9930084D801 /* CallKitButton.m in Sources */,
 				04FF51BD1FAB35FE00563821 /* DTMFButton.m in Sources */,
 				C7398AAC1DD90BD100288CC8 /* CallManager.m in Sources */,
+				0415690E1FB05CE200FDDB23 /* AudioSession.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,7 +434,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluetone.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "aa0a11c4-f0da-4991-bc66-dcd6782d93a4";
+				PROVISIONING_PROFILE = "ea5326bf-eb5d-4fce-afe2-c7f88372d565";
 				PROVISIONING_PROFILE_SPECIFIER = "test Ad Hoc";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
